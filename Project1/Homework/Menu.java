@@ -38,16 +38,16 @@ public class Menu {
 		}	
 
 		public static void addEmployee() {
-		Scanner empl = new Scanner(System.in);
-		System.out.println("Create Employee: ");
-		System.out.println("Enter Name: ");
-		String name = empl.nextLine();
-		System.out.println("Enter Age: ");
-		int age = empl.nextInt();
-		arrEmployee = new ArrayList<Employee>();
-		Employee e = new Employee(name, age);
-		arrEmployee.add(e);
-		}
+			Scanner empl = new Scanner(System.in);
+			System.out.println("Create Employee: ");
+			System.out.println("Enter Name: ");
+			String name = empl.nextLine();
+			System.out.println("Enter Age: ");
+			int age = empl.nextInt();
+			arrEmployee = new ArrayList<Employee>();
+			Employee e = new Employee(name, age);
+			arrEmployee.add(e);
+			}
 	
 		public static void showEmployee() {
 			System.out.println("Employees: ");
