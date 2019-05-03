@@ -1,12 +1,12 @@
 package Demo2;
 
 public class Employee {
-	protected String name;
-	protected int id;
-	protected double Salary;
-	protected int Age;
-	protected boolean Married;
-	protected Job job;
+	private String name;
+	private int id;
+	private double Salary;
+	private int Age;
+	private boolean Married;
+	private Job job;
 	
 	public String getName() {
 		return name;
