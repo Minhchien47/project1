@@ -1,12 +1,15 @@
 package Demo2;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MainMenu {
+public class MainMenu implements EmployeeDAO{
 	public static Scanner scanner =  new Scanner(System.in);
 	public static int inputNumber = 0;
 	public static int employeeNo = 0;
-	public static Employee[] employees;
+	static ArrayList<Employee> emp = new ArrayList<>();
+
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		showMenu();
@@ -14,6 +17,7 @@ public class MainMenu {
 		
 	}
 	public static void showMenu() {
+		EmployeeDAO employeedao = new MainMenu();
 		do {
 	        System.out.println("-----------menu------------");
 	        System.out.println("1. Create New Employee.");
@@ -27,22 +31,22 @@ public class MainMenu {
 			inputNumber = scanner.nextInt();
 			switch (inputNumber){		
 			case 1:
-				addEmployee();
+				employeedao.addEmployee();
 				askForContinue();
 				break;
 			case 2:
-				if(employees != null && employees.length > 0) {
-					showEmployee();
+				if(emp != null && emp.size() > 0) {
+					employeedao.showEmployee();
 				}else {
 					System.out.println("Please add new employee first!");
-					showEmployee();
+					employeedao.showEmployee();
 				}
-				
 				askForContinue();
+
 				break;
 			case 3:
-				//System.out.println("Exit!");
-				//System.exit(0);
+				System.out.println("Exit!");
+				System.exit(0);
                 break;
 			case 0:
 				showMenu();
@@ -50,7 +54,7 @@ public class MainMenu {
 			case 4:
 				System.out.println("Input name to search: ");
 				String nameInput = scanner.next();
-				Employee employee = searchByName(nameInput);	
+				Employee employee = employeedao.searchByName(nameInput);	
 				System.out.println("-----Thông tin tìm kiếm-----");
 				System.out.println(employee.getId()+"  "+employee.getName()+"  "+employee.getSalary());
 				askForContinue();
@@ -64,7 +68,7 @@ public class MainMenu {
 //				if(fullName.contains(nameInputUpdate)) {
 //					
 //				}
-				updateEmployeeByName(nameInputUpdate, newSalary);
+				employeedao.updateEmployeeByName(nameInputUpdate, newSalary);
 				askForContinue();
 				break;
 			default:
@@ -74,11 +78,12 @@ public class MainMenu {
 			}
 		}while(inputNumber != 3);
 	}
-	public static void addEmployee() {
+	@Override
+	public void addEmployee() {
 		System.out.println("How many employee you want to input?");
 		employeeNo =  scanner.nextInt();
-		employees = new Employee[employeeNo];
-		for(int i = 0; i<employees.length; i++) {
+		//employees = new Employee[employeeNo];
+		for(int i = 0; i < employeeNo; i++) {
 			System.out.println("Please input the information of employee[" + i + 1 + "] : ");
 			System.out.println("Name : ");	
 			Scanner scannerName = new Scanner(System.in);
@@ -89,35 +94,39 @@ public class MainMenu {
 			int age = scanner.nextInt();
 			System.out.println("Job name : ");
 			String jobName = scanner.next();
-			Employee employee = new Employee(name, i + 1, salary, age, true, new Job(i + 1, jobName));
-			employees[i] = employee;
+			Employee employee = new Employee(name , i + 1, salary, age, true, new Job(i + 1, jobName));
+			emp.add(employee);
 			
 		}
 	}
-	public static void showEmployee() {
+	@Override
+	public  void showEmployee(){
 		System.out.println("***********Thong tin Employee***********");
-		for(int i=0;i<employees.length;i++) {
-			System.out.println("Employee: "+ employees[i].getId()+ " " +employees[i].getName()+ " " +employees[i].getSalary()+ " " +employees[i].getJob().name);
+		for(Employee employee : emp) {
+			System.out.println("Employee: "+ employee.getId()+ " " +employee.getName()+ " " +employee.getSalary()+ " " +employee.getJob().getName());
 		}
 	}
+	
 	public static void askForContinue() {
 		System.out.println("Do you want continue or exit? (Press 3 to end program, 0 to come back menu) :");
 	}
-	
-	public static Employee searchByName(String nameInput) {
+	@Override
+	public Employee searchByName(String nameInput) {
 		Employee employee = null;
-		for (int i = 0; i <= employees.length; i++) {
-		        if (nameInput.equals(employees[i].getName())){
-		            employee = employees[i];
+		for (int i = 0; i < emp.size(); i++) {
+		        if (nameInput.equals(emp.get(i).getName())){
+		            employee = emp.get(i);
 		            break;
 		        }
 		    }return employee;
 		
 	}
-	public static void updateEmployeeByName(String nameInput, double newSalary) {
-		for (int i = 0; i <= employees.length; i++) {
-	        if (nameInput.equals(employees[i].getName())){
-	             newSalary = employees[i].getSalary();
+	@Override
+	public void updateEmployeeByName(String nameInput, double newSalary) {
+		for (int i = 0; i < emp.size(); i++) {
+	        if (nameInput.equals(emp.get(i).getName())){
+	             emp.get(i).setSalary(newSalary);
+	             
 	            break;
 	        }
 	    }
