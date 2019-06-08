@@ -47,7 +47,8 @@ public  class NewsDAO extends ConnectionUtilsNews implements INews {
 			e.printStackTrace();
 		}
 	}
-
+// Phần addNews này em insert được  các field nhưng không insert được field Namenew
+	
 	@Override
 	public void showNews() {
 		Connection conn = null;
